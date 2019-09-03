@@ -18,7 +18,9 @@ import java.io.IOException;
 public class MyHttpClient {
     private static String urlEmailTo = "http://47.102.153.125:9002/getPE?port=10000";
     //private static String urlWarningInfo = "http://47.102.153.125:9002/getInfo";
-
+    public static void main(String[] args) {
+        new MyHttpClient().getEmailTo("陕西天龙输变电建设有限公司");
+    }
     public JSONArray getEmailTo(String param) {
         HttpClient hc = HttpClients.createDefault();
         HttpGet get = new HttpGet(urlEmailTo + "&target=" + param);

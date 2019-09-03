@@ -34,13 +34,19 @@ public class CusService {
     @RabbitListener(queues = "pushmessage.newMessage")
     @Transactional
     public void newMessageConsume(Message message, Channel channel) {
+        try {
+            System.out.println("=============调用=============");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String s = new String(message.getBody());
         NewMessage newMessage = JSON.parseObject(s, NewMessage.class);
         MyHttpClient m = new MyHttpClient();
         String target = newMessage.getTarget();
         JSONArray emailTo = m.getEmailTo(target);
         Iterator<Object> iterator = emailTo.iterator();
-        // emailSender.sendEmail(newMessage.messageContent("test"), "574025890@qq.com", newMessageSubject);
+         //emailSender.sendEmail(newMessage.messageContent("test"), "1254759600@qq.com", newMessageSubject);
         while (iterator.hasNext()) {
             JSONObject next = (JSONObject) iterator.next();
             String name = next.getString("name");
@@ -59,10 +65,18 @@ public class CusService {
             e.printStackTrace();
         }
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(System.currentTimeMillis()) + " : " + newMessage);
+        System.out.println("=============结束=============");
+
     }
 
     @RabbitListener(queues = "pushmessage.warningMessage")
     public void warningMessageConsume(Message message, Channel channel) {
+        try {
+            System.out.println("=============调用=============");
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         String s = new String(message.getBody());
         WarningMessage warningageMessage = JSON.parseObject(s, WarningMessage.class);
         MyHttpClient m = new MyHttpClient();
@@ -87,5 +101,6 @@ public class CusService {
             e.printStackTrace();
         }
         System.out.println(new SimpleDateFormat("yyyy-MM-dd HH-mm-ss").format(System.currentTimeMillis()) + " : " + warningageMessage);
+        System.out.println("=============结束=============");
     }
 }
